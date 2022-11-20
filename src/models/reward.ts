@@ -25,6 +25,7 @@ const schema = new mongoose.Schema<IReward>(
 			type: Number
 		},
 		expiresIn: {
+			// in seconds
 			type: Number
 		},
 		createdAt: {

@@ -4,16 +4,19 @@ export interface ICourse {
 	user: mongoose.Types.ObjectId;
 	title: string;
 	description: string;
-	topics: {
+	thumbnail: string;
+	promoVideo: string;
+	topics: mongoose.Types.DocumentArray<{
+		topicNo: number;
 		title: string;
 		description: string;
 		duration: string;
 		video: string;
-		supplementryMaterial: { type: string; link: string }[];
-		quizzes: { question: string; isMultipleAnswer: boolean; answers: string[] };
-	}[];
+		supplementryMaterial: mongoose.Types.DocumentArray<{ type: string; link: string }>;
+		quizzes: mongoose.Types.DocumentArray<{ question: string; isMultipleAnswer: boolean; answers: string[] }>;
+	}>;
 	category: string;
-	totalDuration: string;
+	totalDuration: number; // in seconds
 	createdAt?: Date;
 	updatedAt?: Date;
 	lastReviewedAt?: Date;
@@ -31,6 +34,7 @@ const schema = new mongoose.Schema<ICourse>(
 		},
 		topics: [
 			{
+				topicNo: Number,
 				title: String,
 				description: String,
 				duration: String,

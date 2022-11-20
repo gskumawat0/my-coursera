@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 export interface ICoupon {
 	user: mongoose.Types.ObjectId;
@@ -8,9 +9,14 @@ export interface ICoupon {
 	expireAt: Date;
 	createdAt?: Date;
 	updatedAt?: Date;
+	claimedProgress: number;
 }
 
-const schema = new mongoose.Schema<ICoupon>(
+interface ICouponModel extends mongoose.Model<ICoupon> {
+	generateCode(): string;
+}
+
+const schema = new mongoose.Schema<ICoupon, ICouponModel>(
 	{
 		user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 		course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
@@ -23,9 +29,24 @@ const schema = new mongoose.Schema<ICoupon>(
 		},
 		createdAt: {
 			type: Date
-		}
+		},
+		claimedProgress: Number
 	},
 	{ timestamps: true }
 );
 
-export default mongoose.model('Token', schema, 'tokens');
+schema.static('generateCode', async function generateCode() {
+	try {
+		const couponCode = crypto.randomBytes(20).toString('hex').slice(0, 16).toUpperCase();
+		const existingCoupon = await this.findOne({ code: couponCode });
+
+		if (existingCoupon) {
+			return this.generateCode();
+		}
+		return couponCode;
+	} catch (error) {
+		return Promise.reject(error);
+	}
+});
+
+export default mongoose.model<ICoupon, ICouponModel>('Coupon', schema, 'coupons');

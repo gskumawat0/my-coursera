@@ -3,13 +3,12 @@ import mongoose from 'mongoose';
 export interface ICourseProgress {
 	user: mongoose.Types.ObjectId;
 	course: mongoose.Types.ObjectId;
-	progress: {
+	progress: mongoose.Types.DocumentArray<{
 		topicId: mongoose.Types.ObjectId;
-		completedDuration: string;
-	}[];
+		completedDuration: number;
+	}>;
 	lastProgressDate?: Date;
-	completedTopics: number;
-	completedDuration: string;
+	completedDuration: number;
 	isCompleted: boolean;
 }
 
@@ -20,15 +19,14 @@ const schema = new mongoose.Schema<ICourseProgress>(
 		progress: [
 			{
 				topicId: { type: mongoose.Schema.Types.ObjectId },
-				completedDuration: String
+				completedDuration: Number // in seconds
 			}
 		],
-		completedTopics: String,
-		completedDuration: String,
+		completedDuration: Number, // in seconds
 		lastProgressDate: Date,
 		isCompleted: Boolean
 	},
 	{ timestamps: true }
 );
 
-export default mongoose.model('Course', schema, 'courses');
+export default mongoose.model('CourseProgress', schema, 'courseProgress');

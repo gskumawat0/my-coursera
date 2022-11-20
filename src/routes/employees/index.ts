@@ -10,6 +10,6 @@ router
 	.put(controller.updateProgress)
 	.delete(controller.deleteProgress);
 
-router.route('/courses/:courseId/complete').put(controller.completeCourse);
+router.route('/courses/:courseId/rewards/:rewardId/claim').post(controller.claimReward);
 
 export default router;
