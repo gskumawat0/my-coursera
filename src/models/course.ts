@@ -12,8 +12,14 @@ export interface ICourse {
 		description: string;
 		duration: string;
 		video: string;
+		thumbnail: string;
 		supplementryMaterial: mongoose.Types.DocumentArray<{ type: string; link: string }>;
-		quizzes: mongoose.Types.DocumentArray<{ question: string; isMultipleAnswer: boolean; answers: string[] }>;
+		quizzes: mongoose.Types.DocumentArray<{
+			question: string;
+			isMultipleAnswer: boolean;
+			answers: string[];
+			options: string[];
+		}>;
 	}>;
 	category: string;
 	totalDuration: number; // in seconds
@@ -32,6 +38,8 @@ const schema = new mongoose.Schema<ICourse>(
 		description: {
 			type: String
 		},
+		thumbnail: String,
+		promoVideo: String,
 		topics: [
 			{
 				topicNo: Number,
@@ -39,6 +47,7 @@ const schema = new mongoose.Schema<ICourse>(
 				description: String,
 				duration: String,
 				video: String,
+				thumbnail: String,
 				supplementryMaterial: [
 					{
 						type: { type: String, link: String }
@@ -46,7 +55,10 @@ const schema = new mongoose.Schema<ICourse>(
 				],
 				quizzes: [
 					{
-						type: { type: String, answers: [String], isMultipleAnswer: Boolean }
+						question: { type: String },
+						answers: [String],
+						isMultipleAnswer: Boolean,
+						options: [String]
 					}
 				]
 			}

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { DateTime } from 'luxon';
 import User from '../models/user';
 import Token from '../models/token';
 import Course from '../models/course';
@@ -61,11 +62,10 @@ export const generateSigninToken = async (req: Request, res: Response) => {
 
 		const token = await User.createAccessToken();
 
-		const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
 		await Token.create({
 			user: user._id,
 			token,
-			expireAt: SEVEN_DAYS
+			expireAt: DateTime.now().plus({ days: 7 }).valueOf()
 		});
 
 		return res.json({

@@ -14,5 +14,6 @@ router
 	.delete(controller.deleteCourse);
 
 router.route('/courses/:courseId/topics').put(controller.updateCourseTopic);
+router.route('/rewards').get(controller.getRewards).post(controller.addReward);
 
 export default router;

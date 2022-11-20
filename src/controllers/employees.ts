@@ -188,7 +188,7 @@ export const claimReward = async (req: Request, res: Response) => {
 
 		const p3 = Reward.findOne({ _id: rewardId }).lean();
 
-		const p4 = Coupon.find({ user: userId, course: courseId, reward: rewardId }).lean();
+		const p4 = Coupon.findOne({ user: userId, course: courseId, reward: rewardId }).lean();
 
 		const [course, progress, reward, lastCoupon] = await Promise.all([p1, p2, p3, p4]);
 

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { omit } from 'lodash';
 import Course from '../models/course';
+import Reward from '../models/reward';
 import { IUser } from '../models/user';
 
 export const getCourses = async (req: Request, res: Response) => {
@@ -80,7 +81,7 @@ export const updateCourseTopic = async (req: Request, res: Response) => {
 		const { courseId } = req.params;
 		const { topicId, topic } = req.body;
 
-		let course = await Course.findOne({ _id: topicId });
+		let course = await Course.findOne({ _id: courseId, user: userId });
 
 		if (!course) {
 			throw new Error('Course not found');
@@ -131,6 +132,35 @@ export const deleteCourse = async (req: Request, res: Response) => {
 
 		return res.json({
 			message: 'Course Deleted successfully'
+		});
+	} catch (error: any) {
+		return res.status(500).json({
+			message: error.message
+		});
+	}
+};
+
+export const getRewards = async (req: Request, res: Response) => {
+	try {
+		const rewards = await Reward.find({});
+
+		return res.json({
+			rewards
+		});
+	} catch (error: any) {
+		return res.status(500).json({
+			message: error.message
+		});
+	}
+};
+
+export const addReward = async (req: Request, res: Response) => {
+	try {
+		const data = req.body;
+		const reward = await Reward.create({ ...data });
+
+		return res.json({
+			reward
 		});
 	} catch (error: any) {
 		return res.status(500).json({

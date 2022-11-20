@@ -13,7 +13,7 @@ const generateStrategy = (allowedRole: string) => {
 
 	return new JwtStrategy(options, async (jwtPayload, cb) => {
 		try {
-			const user = await User.findOne({ email: jwtPayload.data.email });
+			const user = await User.findOne({ email: jwtPayload.data.email }).lean();
 
 			if (!user) {
 				throw new Error('bad request');
