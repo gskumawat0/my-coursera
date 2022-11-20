@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-export interface ICourse extends mongoose.Document {
-	user: mongoose.Schema.Types.ObjectId;
+export interface ICourse {
+	user: mongoose.Types.ObjectId;
 	title: string;
 	description: string;
 	topics: {

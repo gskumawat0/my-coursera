@@ -1,15 +1,16 @@
 import mongoose from 'mongoose';
 
-export interface ICourseProgress extends mongoose.Document {
-	user: mongoose.Schema.Types.ObjectId;
-	course: mongoose.Schema.Types.ObjectId;
+export interface ICourseProgress {
+	user: mongoose.Types.ObjectId;
+	course: mongoose.Types.ObjectId;
 	progress: {
-		topicId: mongoose.Schema.Types.ObjectId;
+		topicId: mongoose.Types.ObjectId;
 		completedDuration: string;
 	}[];
 	lastProgressDate?: Date;
 	completedTopics: number;
 	completedDuration: string;
+	isCompleted: boolean;
 }
 
 const schema = new mongoose.Schema<ICourseProgress>(
@@ -24,7 +25,8 @@ const schema = new mongoose.Schema<ICourseProgress>(
 		],
 		completedTopics: String,
 		completedDuration: String,
-		lastProgressDate: Date
+		lastProgressDate: Date,
+		isCompleted: Boolean
 	},
 	{ timestamps: true }
 );

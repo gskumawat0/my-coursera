@@ -3,10 +3,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import compression from 'compression';
+import connectDB from './database';
 
-dotenv.config({ debug: true });
+dotenv.config({});
 const app = express();
 
 const { PORT } = process.env;
@@ -19,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req: express.Request, res: express.Response) => {
 	return res.json({
-		message: "We're enjoying it here"
+		message: "We're enjoying our time here"
 	});
 });
 
@@ -30,6 +31,12 @@ app.all('*', (req, res) =>
 	})
 );
 
-app.listen(PORT, () => {
-	console.log(`app is live at http://localhost:${PORT}}`);
-});
+const setupServer = async () => {
+	await connectDB();
+
+	app.listen(PORT, () => {
+		console.log(`app is live at http://localhost:${PORT}}`);
+	});
+};
+
+setupServer();
