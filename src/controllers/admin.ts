@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { omit } from 'lodash';
 import Course from '../models/course';
 
 export const getCourses = async (req: Request, res: Response) => {
@@ -20,7 +21,7 @@ export const addCourse = async (req: Request, res: Response) => {
 	try {
 		const userId = '';
 		const courseData = req.body;
-		const course = await Course.create({ ...courseData, user: userId });
+		const course = await Course.create({ ...courseData, status: 'PENDING', user: userId });
 
 		return res.json({
 			message: 'Course created successfully',
@@ -53,7 +54,7 @@ export const updateCourse = async (req: Request, res: Response) => {
 	try {
 		const userId = '';
 		const { courseId } = req.params;
-		const courseData = req.body;
+		const courseData = omit(req.body, ['status']);
 
 		const course = await Course.findOneAndUpdate(
 			{ _id: courseId, user: userId },

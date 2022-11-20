@@ -1,9 +1,26 @@
 import { Request, Response } from 'express';
 import User from '../models/user';
 import Token from '../models/token';
+import Course from '../models/course';
+
+interface IAdminCourseQuery {
+	status?: string;
+}
 
 export const getCourses = async (req: Request, res: Response) => {
 	try {
+		const { status } = req.query;
+		const query: IAdminCourseQuery = {};
+
+		if (status) {
+			query.status = status as string;
+		}
+
+		const courses = await Course.find({ ...query });
+
+		return res.json({
+			courses
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message
@@ -13,6 +30,19 @@ export const getCourses = async (req: Request, res: Response) => {
 
 export const reviewCourse = async (req: Request, res: Response) => {
 	try {
+		const { courseId } = req.params;
+		const { status } = req.body;
+
+		const data = {
+			status,
+			lastReviewedAt: Date.now()
+		};
+
+		const course = await Course.findOneAndUpdate({ _id: courseId }, { $set: { ...data } }, { new: true });
+
+		return res.json({
+			course
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message

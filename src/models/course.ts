@@ -16,8 +16,7 @@ export interface ICourse {
 	totalDuration: string;
 	createdAt?: Date;
 	updatedAt?: Date;
-	approvedAt?: Date;
-	lastApprovedAt?: Date;
+	lastReviewedAt?: Date;
 	status: 'APPROVED' | 'PENDING' | 'REJECTED';
 }
 
@@ -50,8 +49,7 @@ const schema = new mongoose.Schema<ICourse>(
 		],
 		category: String,
 		totalDuration: String,
-		approvedAt: Date,
-		lastApprovedAt: Date,
+		lastReviewedAt: Date,
 		status: {
 			type: String,
 			default: 'PENDING'
