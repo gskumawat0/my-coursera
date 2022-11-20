@@ -9,6 +9,7 @@ router
 	.post(controller.startCourse)
 	.put(controller.updateProgress)
 	.delete(controller.deleteProgress);
+
 router.route('/courses/:courseId/complete').put(controller.completeCourse);
 
 export default router;

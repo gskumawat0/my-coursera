@@ -1,7 +1,14 @@
 import { Request, Response } from 'express';
+import Course from '../models/course';
 
-export const getCourses = (req: Request, res: Response) => {
+export const getCourses = async (req: Request, res: Response) => {
 	try {
+		const userId = '';
+		const courses = await Course.find({ user: userId });
+
+		return res.json({
+			courses
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message
@@ -9,8 +16,16 @@ export const getCourses = (req: Request, res: Response) => {
 	}
 };
 
-export const addCourse = (req: Request, res: Response) => {
+export const addCourse = async (req: Request, res: Response) => {
 	try {
+		const userId = '';
+		const courseData = req.body;
+		const course = await Course.create({ ...courseData, user: userId });
+
+		return res.json({
+			message: 'Course created successfully',
+			course
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message
@@ -18,8 +33,15 @@ export const addCourse = (req: Request, res: Response) => {
 	}
 };
 
-export const getCourse = (req: Request, res: Response) => {
+export const getCourse = async (req: Request, res: Response) => {
 	try {
+		const userId = '';
+		const { courseId } = req.params;
+		const course = await Course.findOne({ user: userId, _id: courseId });
+
+		return res.json({
+			course
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message
@@ -27,8 +49,22 @@ export const getCourse = (req: Request, res: Response) => {
 	}
 };
 
-export const updateCourse = (req: Request, res: Response) => {
+export const updateCourse = async (req: Request, res: Response) => {
 	try {
+		const userId = '';
+		const { courseId } = req.params;
+		const courseData = req.body;
+
+		const course = await Course.findOneAndUpdate(
+			{ _id: courseId, user: userId },
+			{ $set: { ...courseData } },
+			{ new: true }
+		);
+
+		return res.json({
+			message: 'Course updated successfully',
+			course
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message
@@ -36,8 +72,40 @@ export const updateCourse = (req: Request, res: Response) => {
 	}
 };
 
-export const deleteCourse = (req: Request, res: Response) => {
+// TODO: complete it
+export const updateCourseTopic = async (req: Request, res: Response) => {
 	try {
+		const userId = '';
+		const { courseId } = req.params;
+		const courseData = req.body;
+
+		const course = await Course.findOneAndUpdate(
+			{ _id: courseId, user: userId },
+			{ $set: { ...courseData } },
+			{ new: true }
+		);
+
+		return res.json({
+			message: 'Course updated successfully',
+			course
+		});
+	} catch (error: any) {
+		return res.status(500).json({
+			message: error.message
+		});
+	}
+};
+
+export const deleteCourse = async (req: Request, res: Response) => {
+	try {
+		const userId = '';
+		const { courseId } = req.params;
+
+		await Course.findOneAndDelete({ _id: courseId, user: userId });
+
+		return res.json({
+			message: 'Course Deleted successfully'
+		});
 	} catch (error: any) {
 		return res.status(500).json({
 			message: error.message

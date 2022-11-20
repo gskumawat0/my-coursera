@@ -10,4 +10,6 @@ router
 	.put(controller.updateCourse)
 	.delete(controller.deleteCourse);
 
+router.route('/courses/:courseId/topics').put(controller.updateCourseTopic);
+
 export default router;
