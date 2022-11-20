@@ -1,10 +1,10 @@
 import express from 'express';
-import routes from '../../controllers/auth';
+import * as controller from '../../controllers/auth';
 
 const router = express.Router();
 
-router.route('/signup').post();
-router.route('/signin').post();
-router.route('/signin/token').post();
+router.route('/signup').post(controller.signup);
+router.route('/signin').post(controller.signin);
+router.route('/signin/token').post(controller.signinWithToken);
 
 export default router;

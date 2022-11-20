@@ -1,10 +1,14 @@
 import express from 'express';
-import routes from '../../controllers/employees';
+import * as controller from '../../controllers/employees';
 
 const router = express.Router();
 
-router.route('/courses').get();
-router.route('/courses/:courseId/progress').post().put().delete();
-router.route('/courses/:courseId/complete').put();
+router.route('/courses').get(controller.getCourses);
+router
+	.route('/courses/:courseId/progress')
+	.post(controller.startCourse)
+	.put(controller.updateProgress)
+	.delete(controller.deleteProgress);
+router.route('/courses/:courseId/complete').put(controller.completeCourse);
 
 export default router;

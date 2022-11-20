@@ -1,9 +1,13 @@
 import express from 'express';
-import routes from '../../controllers/admin';
+import * as controller from '../../controllers/admin';
 
 const router = express.Router();
 
-router.route('/courses').get().post();
-router.route('/courses/:courseId').get().put().delete();
+router.route('/courses').get(controller.getCourses).post(controller.addCourse);
+router
+	.route('/courses/:courseId')
+	.get(controller.getCourse)
+	.put(controller.updateCourse)
+	.delete(controller.deleteCourse);
 
 export default router;

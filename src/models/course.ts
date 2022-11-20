@@ -18,7 +18,7 @@ export interface ICourse {
 	updatedAt?: Date;
 	approvedAt?: Date;
 	lastApprovedAt?: Date;
-	status: 'APPROVED' | 'PENDING';
+	status: 'APPROVED' | 'PENDING' | 'REJECTED';
 }
 
 const schema = new mongoose.Schema<ICourse>(
