@@ -4,6 +4,7 @@ import Course from '../models/course';
 import Coupon from '../models/coupon';
 import Reward from '../models/reward';
 import CourseProgress from '../models/courseProgress';
+import { IUser } from '../models/user';
 
 export const getCourses = async (req: Request, res: Response) => {
 	try {
@@ -25,7 +26,7 @@ export const getCourses = async (req: Request, res: Response) => {
 
 export const startCourse = async (req: Request, res: Response) => {
 	try {
-		const userId = '';
+		const { _id: userId } = req.user as Pick<IUser, 'email' | '_id'>;
 		const { courseId } = req.params;
 
 		const course = await Course.findOne({ _id: courseId });
@@ -60,7 +61,7 @@ export const startCourse = async (req: Request, res: Response) => {
 
 export const updateProgress = async (req: Request, res: Response) => {
 	try {
-		const userId = '';
+		const { _id: userId } = req.user as Pick<IUser, 'email' | '_id'>;
 		const { courseId } = req.params;
 		const { topicId, completedDuration } = req.body;
 
@@ -161,7 +162,7 @@ export const updateProgress = async (req: Request, res: Response) => {
 
 export const deleteProgress = async (req: Request, res: Response) => {
 	try {
-		const userId = '';
+		const { _id: userId } = req.user as Pick<IUser, 'email' | '_id'>;
 		const { courseId } = req.params;
 
 		await CourseProgress.findOneAndDelete({ user: userId, course: courseId });
@@ -178,7 +179,7 @@ export const deleteProgress = async (req: Request, res: Response) => {
 
 export const claimReward = async (req: Request, res: Response) => {
 	try {
-		const userId = '';
+		const { _id: userId } = req.user as Pick<IUser, 'email' | '_id'>;
 		const { courseId, rewardId } = req.params;
 
 		const p1 = Course.findOne({ _id: courseId }).lean();

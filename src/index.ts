@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -6,8 +6,10 @@ import helmet from 'helmet';
 // import mongoose from 'mongoose';
 import compression from 'compression';
 import connectDB from './database';
+import { passportInit } from './passport';
 
 dotenv.config({});
+
 const app = express();
 
 const { PORT } = process.env;
@@ -33,6 +35,7 @@ app.all('*', (req, res) =>
 
 const setupServer = async () => {
 	await connectDB();
+	passportInit(app);
 
 	app.listen(PORT, () => {
 		console.log(`app is live at http://localhost:${PORT}}`);

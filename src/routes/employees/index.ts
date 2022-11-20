@@ -1,7 +1,10 @@
 import express from 'express';
+import passport from 'passport';
 import * as controller from '../../controllers/employees';
 
 const router = express.Router();
+
+router.use(passport.authenticate('employee', { session: false }));
 
 router.route('/courses').get(controller.getCourses);
 router

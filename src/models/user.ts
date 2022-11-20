@@ -9,6 +9,7 @@ export interface IUser {
 	role: 'ADMIN' | 'SUPER_ADMIN' | 'EMPLOYEE';
 	createdAt?: Date;
 	updatedAt?: Date;
+	_id?: mongoose.Types.ObjectId;
 }
 
 interface IUserModel extends mongoose.Model<IUser> {
